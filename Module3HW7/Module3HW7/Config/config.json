@@ -1,0 +1,10 @@
+{
+  "LoggerConfig": {
+    "TimeFormat": "hh:mm:ss dd.MM.yyyy",
+    "NameFile": "hh.mm.ss dd.MM.yyyy",
+    "DirectoryLoggerPath": "Logs/",
+    "FileExtension": ".txt",
+    "CountRecord": 5,
+    "DirectoryBackupPath": "Backup"
+  }
+}
