@@ -6,15 +6,15 @@ namespace Module3HW7.Services;
 
 public class ConfigService : IConfigService
 {
-    private const string Path = "config.json";
-    private Config? _config;
+    private const string Path = "Configs/config.json";
+    private Config _config;
 
     public ConfigService()
     {
         LoadConfig();
     }
 
-    public Config? Config => _config;
+    public Config Config => _config;
 
     private void LoadConfig()
     {

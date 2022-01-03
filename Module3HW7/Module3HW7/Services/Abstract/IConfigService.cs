@@ -4,5 +4,5 @@ namespace Module3HW7.Services.Abstract;
 
 public interface IConfigService
 {
-    public Config? Config { get; }
+    public Config Config { get; }
 }

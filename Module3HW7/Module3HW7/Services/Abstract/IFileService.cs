@@ -2,8 +2,7 @@
 
 public interface IFileService
 {
-    public string ReadFile(string path);
-    public IDisposable CreateFile(string path);
-    public void WriteFile(IDisposable? streamWriter, string text);
-    public void CloseFile(IDisposable? streamWriter);
+    public void CreateFile(string directory, string fileName, string fileExtension);
+    public Task WriteFileAsync(string text);
+    public void WriteBackupFile();
 }

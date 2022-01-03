@@ -1,28 +1,48 @@
 ﻿using Module3HW7.Helpers;
-using Module3HW7.Services;
+using Module3HW7.Helpers.Abstract;
+using Module3HW7.Services.Abstract;
 
 namespace Module3HW7;
 
 public class Starter
 {
-    private readonly LoggerService _loggerService;
-    private readonly FileService _fileService;
-    private readonly Actions _actions;
+    private readonly ILoggerService _loggerService;
+    private readonly IFileService _fileService;
+    private readonly IActions _actions;
     private readonly Random _random;
 
-    public Starter(LoggerService loggerService, FileService fileService)
+    public Starter(IActions actions, ILoggerService loggerService, IFileService fileService)
     {
+        _actions = actions;
         _loggerService = loggerService;
         _fileService = fileService;
-        _actions = new Actions(_loggerService);
         _random = new Random();
+    }
+
+    public void Run()
+    {
+        RunFile();
+    }
+
+    private async void RunFile()
+    {
+        _loggerService.Backup += Backup;
+        var first = Task.Run(() => WriteLogger(50));
+        var second = Task.Run(() => WriteLogger(50));
+
+        await Task.WhenAll(new[] { first, second });
+    }
+
+    private void Backup()
+    {
+        _fileService.WriteBackupFile();
     }
 
     private void WriteLogger(int countIteration)
     {
         for (var i = 0; i < countIteration; i++)
         {
-            var numberMethod = _random.Next(3);
+            var numberMethod = _random.Next(0, 3);
 
             try
             {
