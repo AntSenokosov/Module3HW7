@@ -1,9 +1,9 @@
-﻿using Module3HW7.Helpers;
-using Module3HW7.Services.Abstract;
+﻿using Module3HW7.Services.Abstract;
+using Module3HW7.Helpers.Abstract;
 
-namespace Module3HW7;
+namespace Module3HW7.Helpers;
 
-public class Actions
+public class Actions : IActions
 {
     private readonly ILoggerService _logger;
 

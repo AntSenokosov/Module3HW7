@@ -5,6 +5,6 @@
     "DirectoryLoggerPath": "Logs/",
     "FileExtension": ".txt",
     "CountRecord": 5,
-    "DirectoryBackupPath": "Backup"
+    "DirectoryBackupPath": "Backup/"
   }
 }
