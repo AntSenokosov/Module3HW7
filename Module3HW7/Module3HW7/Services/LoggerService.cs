@@ -21,19 +21,27 @@ public class LoggerService : ILoggerService
 
     public event Action Backup;
 
-    public void LogError(string message)
+    public async Task LogError(string message)
     {
-        Log(message, TypeLogger.Error);
+        await LogAsync(message, TypeLogger.Error);
     }
 
-    public void LogInfo(string message)
+    public async Task LogInfo(string message)
     {
-        Log(message, TypeLogger.Info);
+        await LogAsync(message, TypeLogger.Info);
     }
 
-    public void LogWarning(string message)
+    public async Task LogWarning(string message)
     {
-        Log(message, TypeLogger.Warning);
+        await LogAsync(message, TypeLogger.Warning);
+    }
+
+    public async Task LogAsync(string message, TypeLogger typeLogger)
+    {
+        var log = $"{DateTime.UtcNow.ToString(_loggerConfig.TimeFormat)}: {typeLogger.ToString()}: {message}";
+        await _fileService.WriteFileAsync(log);
+        _countRecord++;
+        WriteBackup(_countRecord);
     }
 
     private void FileInit()
@@ -50,13 +58,5 @@ public class LoggerService : ILoggerService
         {
             Backup?.Invoke();
         }
-    }
-
-    private void Log(string message, TypeLogger typeLogger)
-    {
-        var log = $"{DateTime.UtcNow.ToString(_loggerConfig.TimeFormat)}: {typeLogger.ToString()}: {message}";
-        _fileService.WriteFileAsync(log);
-        _countRecord++;
-        WriteBackup(_countRecord);
     }
 }

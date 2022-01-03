@@ -1,5 +1,6 @@
 ﻿using Module3HW7.Helpers;
 using Module3HW7.Helpers.Abstract;
+using Module3HW7.Models;
 using Module3HW7.Services.Abstract;
 
 namespace Module3HW7;
@@ -21,16 +22,20 @@ public class Starter
 
     public void Run()
     {
-        RunFile();
-    }
-
-    private async void RunFile()
-    {
         _loggerService.Backup += Backup;
-        var first = Task.Run(() => WriteLogger(50));
-        var second = Task.Run(() => WriteLogger(50));
+        var list = new List<Task>();
 
-        await Task.WhenAll(new[] { first, second });
+        list.Add(Task.Run(async () =>
+        {
+            await WriteLogger(50);
+        }));
+
+        list.Add(Task.Run(async () =>
+        {
+            await WriteLogger(50);
+        }));
+
+        Task.WaitAll(list.ToArray());
     }
 
     private void Backup()
@@ -38,7 +43,7 @@ public class Starter
         _fileService.WriteBackupFile();
     }
 
-    private void WriteLogger(int countIteration)
+    private async Task WriteLogger(int countIteration)
     {
         for (var i = 0; i < countIteration; i++)
         {
@@ -61,11 +66,11 @@ public class Starter
             }
             catch (BusinessException e)
             {
-                _loggerService.LogWarning($"Action got this custom Exception: {e.Message}");
+                await _loggerService.LogWarning($"Action got this custom Exception: {e.Message}");
             }
             catch (Exception e)
             {
-                _loggerService.LogError($"Action failed by reason: {e}");
+                await _loggerService.LogError($"Action failed by reason: {e}");
             }
         }
     }

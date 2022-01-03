@@ -1,9 +1,12 @@
-﻿namespace Module3HW7.Services.Abstract;
+﻿using Module3HW7.Models;
+
+namespace Module3HW7.Services.Abstract;
 
 public interface ILoggerService
 {
     public event Action Backup;
-    public void LogError(string message);
-    public void LogInfo(string message);
-    public void LogWarning(string message);
+    public Task LogError(string message);
+    public Task LogInfo(string message);
+    public Task LogWarning(string message);
+    public Task LogAsync(string message, TypeLogger typeLogger);
 }
